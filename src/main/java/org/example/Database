@@ -1,0 +1,60 @@
+create table if not exists public.adminn
+(
+    id           integer generated always as identity
+        primary key,
+    username     varchar(250),
+    nationalcode varchar(250)
+);
+
+alter table public.adminn
+    owner to postgres;
+
+create table if not exists public.drug
+(
+    id      integer generated always as identity
+        primary key,
+    name    varchar(250),
+    price   integer,
+    numbers integer
+);
+
+alter table public.drug
+    owner to postgres;
+
+create table if not exists public.patient
+(
+    id           integer generated always as identity
+        primary key,
+    username     varchar(250),
+    nationalcode varchar(250)
+);
+
+alter table public.patient
+    owner to postgres;
+
+create table if not exists public.noskhe
+(
+    id         integer generated always as identity
+        primary key,
+    patient_id integer
+        references public.patient,
+    confirm    varchar default 'NO'::character varying,
+    totalprice integer default 0
+);
+
+alter table public.noskhe
+    owner to postgres;
+
+create table if not exists public.cart
+(
+    id        integer generated always as identity
+        primary key,
+    drug_id   integer
+        references public.drug,
+    noskhe_id integer
+        constraint cart___fk
+            references public.noskhe
+);
+
+alter table public.cart
+    owner to postgres;
